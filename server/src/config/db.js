@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "./index.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
 export const connectDB = async()=>{
     await mongoose.connect(config.mongoUri);

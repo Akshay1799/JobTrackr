@@ -3,8 +3,7 @@ import {app} from './app.js';
 import { config } from './src/config/index.js';
 
 const startServer = ()=>{
-    connectDB()
-    .then(()=>{
+    connectDB().then(()=>{
         app.listen(config.port, ()=>console.log(`Server is listening on port ${config.port}`))
     })
     .catch((error)=>{
