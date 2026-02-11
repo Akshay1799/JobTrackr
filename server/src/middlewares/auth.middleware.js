@@ -17,7 +17,7 @@ export const protect = catchAsync(async(req, res, next)=>{
 
     const decoded = jwt.verify(token, config.jwtSecret);
 
-    const user = await User.findById(decoded.id).select('-password');
+    const user = await User.findById(decoded.id);
     if(!user) return next(new AppError('User no longer exists', 401))
 
     req.user = user;

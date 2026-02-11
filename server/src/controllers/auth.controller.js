@@ -5,7 +5,7 @@ import AppError from '../utils/AppError.js'
 import User from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
 
-export const register = catchAsync(async (req, res, next) => {
+export const signup = catchAsync(async (req, res, next) => {
     const {name, email, password} = req.body;
 
     if (!name || !email || !password) {
@@ -37,7 +37,7 @@ export const login = catchAsync(async (req, res, next) => {
         return next(new AppError('Fields are missing!', 400))
     }
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({email}).select('+password');
     if(!user) return next(new AppError('User does not exists!', 400));
 
     const isMatch = await user.comparePassword(password);
@@ -46,7 +46,8 @@ export const login = catchAsync(async (req, res, next) => {
     const token = generateToken(user._id);
 
     res.status(200).json({
-        status:'User loged in successfully!',
+        status:'success',
+        message:'User loged in successfully!',
         token,
         user:{
             id: user._id,
